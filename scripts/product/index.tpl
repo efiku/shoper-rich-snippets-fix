@@ -107,7 +107,9 @@
                                     {/if}
 
                                     {if $product->product->producer_id}
-                                    <meta itemprop="brand" content="{$product->producer->manufacturer->name|escape}">
+                                    <span itemprop="brand" itemtype="https://schema.org/Brand" itemscope>
+                                        <meta itemprop="brand" content="{$product->producer->manufacturer->name|escape}">
+                                    </span>
                                     {/if}
                                 </div>
 

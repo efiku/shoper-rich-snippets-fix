@@ -8,19 +8,28 @@
     </div>
 
     <div class="innerbox tab-content tab-comments">
+        <div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+            <meta itemprop="worstRating" content="0">
+            <meta itemprop="bestRating"  content="5">
+            <meta itemprop="ratingValue" content="{$product->vote->rate|escape}">
+            <meta itemprop="reviewCount" content="{$product_comments|count}">
+        </div>
         {foreach from=$product_comments item=comment name=list}
-        <div class="productcomment" id="comment{$comment->getIdentifier()}" itemprop="review" itemscope itemtype=" {$schema}://schema.org/Review">
+        <div class="productcomment" itemscope itemprop="review" itemtype="https://schema.org/Review" id="comment-{$comment->getIdentifier()}">
             <div class="floatfix row">
-                <h5 class="reviewer" itemprop="author">{$comment->comment->user_name|escape}</h5>
-                <div class="date">{date value=$comment->comment->date}</div>
+                <h5 class="reviewer" itemprop="author" itemtype="https://schema.org/Person" itemscope>
+                    <meta itemprop="name" content="{$comment->comment->user_name|escape}">
+                    {$comment->comment->user_name|escape}</h5>
+                <div class="date">
+                    {date value=$comment->comment->date}
+                </div>
             </div>
-            <p class="description row" itemprop="description">{$comment->comment->content|escape}</p>
-
-            <div itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+            <div itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
                 <meta itemprop="worstRating" content="0">
                 <meta itemprop="bestRating" content="5">
                 <meta itemprop="ratingValue" content="{$product->vote->rate|escape}">
             </div>
+            <p class="description row" itemprop="description">{$comment->comment->content|escape}</p>
         </div>
         {/foreach}
 
@@ -90,13 +99,4 @@
         {/if}
     </div>
 </div>
-
-{if 1 == $skin_settings->productdetails->score}
-<div itemprop="aggregateRating" itemscope itemtype="{$schema}://schema.org/AggregateRating">
-    <meta itemprop="ratingValue" content="{$product->vote->rate|escape}" />
-    <meta itemprop="bestRating" content="5" />
-    <meta itemprop="worstRating" content="0" />
-    <meta itemprop="reviewCount" content="{$product->vote->votes|escape}" />
-</div>
-{/if}
 {/if}
